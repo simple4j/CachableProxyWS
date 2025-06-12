@@ -1,0 +1,17 @@
+{
+	"priority": 1,
+    "request": {
+        "method": "GET",
+        "url": "/api1/entry.json?PARAM1=12345&PARAM2=abcde"
+    },
+    "response": {
+        "status": 200,
+		"body": "{\"responsevalue\":\"somevalue{{request.query.PARAM1}}-{{request.query.PARAM2}}\"}",
+		"headers": {
+		    "Content-Type": "application/JSON",
+			"request-id": "{{randomValue length=5 type='NUMERIC'}}"
+		},
+		"transformers": ["response-template"]
+    }
+}
+

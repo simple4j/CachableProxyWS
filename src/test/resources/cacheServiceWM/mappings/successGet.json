@@ -1,0 +1,15 @@
+{
+    "priority": 1,
+	"request": {
+        "method": "GET",
+        "url": "/cacherws/V1/cache.json?key=api1_$PARAM1-2345$PARAM2-bcde"
+    },
+    "response": {
+        "status": 200,
+		"body": "{\"cachevalue\":\"{\\\"HTTP_RESPONSE_OBJECT\\\":{\\\"responsevalue\\\":\\\"{{request.query.key}}\\\"}, \\\"HTTP_STATUS_CODE\\\":\\\"200\\\", \\\"HTTP_RESPONSE_HEADERS\\\":{}}\"}",
+	    "headers": {
+	        "Content-Type": "application/json"
+	    },
+		"transformers": ["response-template"]
+    }
+}

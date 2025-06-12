@@ -1,0 +1,15 @@
+{
+	"priority": 100,
+    "request": {
+        "method": "GET",
+        "urlPattern": "/cacherws/V1/cache.json.*"
+    },
+    "response": {
+        "status": 404,
+		"body": "{\"status\":\"NOT_FOUND\"}",
+	    "headers": {
+	        "Content-Type": "application/json"
+	    },
+		"transformers": ["response-template"]
+    }
+}

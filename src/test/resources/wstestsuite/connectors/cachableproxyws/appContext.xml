@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context 
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<import resource="get.xml" />
+ 
+	<bean id="cpwshttpWSClient" class="org.simple4j.wsclient.http.HTTPWSClient">
+		<property name="connectionTimeOutMillis" value="10000"></property>
+		<property name="maxConnectionsPerHost" value="2"></property>
+		<property name="numberOfRetries" value="2"></property>
+		<property name="serviceHostName" value="localhost"></property>
+		<property name="servicePortNumber" value="2410"></property>
+		<property name="serviceProtocol" value="http"></property>
+		<property name="socketTimeOutMillis" value="30000"></property>
+	</bean>
+
+	<bean id="jsonBodyParser" class="org.simple4j.wsclient.parser.impl.JSONParser">
+	</bean>
+
+</beans>

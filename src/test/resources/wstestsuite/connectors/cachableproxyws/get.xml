@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<bean id="cpwsCallerFactory" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+		<property name="httpWSClient" ref="cpwshttpWSClient"></property>
+		<property name="jSONConfig">
+			<value>
+				<![CDATA[
+{
+	"freemarkerEncoding":"UTF-8",
+	"freemarkerVersion":"2.3.23",
+    "request": {
+        "method": "GET",
+        "urlPattern": "/cachableproxyws/V1/${refreshPathToken}proxy.json?API=${apiId}&PARAM1=${param1}&PARAM2=${param2}",
+        "body": "",
+        "staticHeaders": {
+            "Content-Type": "application/JSON"
+        },
+        "headers": {
+			"callerId": "${callerId}",
+			"userId": "${userId}"
+        }
+    },
+    "response": {
+        "responseBodyToCustomFieldMapping": {
+        }
+    }
+}
+				]]>
+			</value>
+		</property>
+		<property name="responseBodyParsers">
+			<map>
+				<entry key="(200)|(204)|(412)|(403)" value-ref="jsonBodyParser"></entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

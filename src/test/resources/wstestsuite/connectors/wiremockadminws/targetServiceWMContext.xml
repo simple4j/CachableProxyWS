@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context 
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<bean id="targetServiceWMHTTPWSClient" class="org.simple4j.wsclient.http.HTTPWSClient">
+		<property name="connectionTimeOutMillis" value="10000"></property>
+		<property name="maxConnectionsPerHost" value="2"></property>
+		<property name="numberOfRetries" value="2"></property>
+		<property name="serviceHostName" value="localhost"></property>
+		<property name="servicePortNumber" value="2001"></property>
+		<property name="serviceProtocol" value="http"></property>
+		<property name="socketTimeOutMillis" value="30000"></property>
+	</bean>
+ 
+	<bean id="targetServiceWMVerificationCallerFactory" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+		<!-- Same http cliecnt can be used for webservice and also for POJOASHTTP-->
+		<property name="httpWSClient" ref="targetServiceWMHTTPWSClient"></property>
+		<property name="jSONConfig">
+			<value>
+				<![CDATA[
+{
+	"freemarkerEncoding":"UTF-8",
+	"freemarkerVersion":"2.3.23",
+    "request": {
+        "method": "POST",
+        "urlPattern": "__admin/requests/count",
+        "body": "{\"method\": \"GET\", \"url\": \"/api1/entry.json?${queryParam}\"}",
+        "staticHeaders": {
+            "Content-Type": "application/JSON"
+        },
+        "headers": {
+        }
+    },
+    "response": {
+        "responseBodyToCustomFieldMapping": {
+            "responsevalue1": "responsevalue"
+        }
+    }
+}
+				]]>
+			</value>
+		</property>
+		<property name="responseBodyParsers">
+			<map>
+				<entry key="(200)" value-ref="successBodyParser"></entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- {} -->
+	<bean id="successBodyParser" class="org.simple4j.wsclient.parser.impl.JSONParser">
+	</bean>
+
+</beans>

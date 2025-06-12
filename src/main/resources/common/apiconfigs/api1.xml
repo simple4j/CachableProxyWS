@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   					   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   					   http://www.springframework.org/schema/context
+	   					   http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	   					   http://jax-ws.dev.java.net/spring/core
+        				   http://jax-ws.dev.java.net/spring/core.xsd
+        				   http://www.springframework.org/schema/aop
+						   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        				   http://jax-ws.dev.java.net/spring/servlet
+        				   http://jax-ws.dev.java.net/spring/servlet.xsd
+        				   http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd">
+
+   	<import resource="classpath:/apiconfigs/api1/caching.xml" />
+   	<import resource="classpath:/apiconfigs/api1/validator.xml" />
+
+	<bean id="api1" class="org.simple4j.cachableproxyws.japi.impl.CallerWrapperImpl">
+		<property name="caller" ref="api1Caller" />
+	</bean>
+
+	<bean id="api1Caller" factory-bean="callerFactory1" factory-method="getCaller"></bean>
+
+	<bean id="callerFactory1" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+		<property name="httpWSClient" ref="httpWSClient1" />
+		<property name="jSONConfigFile" value="classpath:/apiconfigs/api1/api1.json" />
+		<property name="responseBodyParsers">
+			<map>
+				<entry key="(200)|(404)|(401)|(403)|(412)">
+					<bean id="jsonBodyParser" class="org.simple4j.wsclient.parser.impl.JSONParser">
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="httpWSClient1" class="org.simple4j.wsclient.http.HTTPWSClient">
+		<property name="connectionTimeOutMillis" value="1000"></property>
+		<property name="maxConnectionsPerHost" value="10"></property>
+		<property name="numberOfRetries" value="2"></property>
+		<property name="serviceHostName" value="localhost"></property>
+		<property name="servicePortNumber" value="2001"></property>
+		<property name="serviceProtocol" value="http"></property>
+		<property name="socketTimeOutMillis" value="3000"></property>
+	</bean>
+
+
+	<bean id="methodLoggingInterceptor" class="org.simple4j.cachableproxyws.interceptor.MethodLoggingInterceptor">
+	</bean>
+
+	<aop:config proxy-target-class="false">
+	    <aop:advisor advice-ref="methodLoggingInterceptor" pointcut="execution(public * org.simple4j.wsclient.caller.ICaller.call(..))"/>
+	</aop:config>
+
+</beans>

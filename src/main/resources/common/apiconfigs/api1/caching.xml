@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   					   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   					   http://www.springframework.org/schema/context
+	   					   http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	   					   http://jax-ws.dev.java.net/spring/core
+        				   http://jax-ws.dev.java.net/spring/core.xsd
+        				   http://www.springframework.org/schema/aop
+						   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        				   http://jax-ws.dev.java.net/spring/servlet
+        				   http://jax-ws.dev.java.net/spring/servlet.xsd
+        				   http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<aop:config proxy-target-class="false">
+	    <aop:advisor advice-ref="cachingInterceptor" pointcut="execution(public * org.simple4j.wsclient.caller.ICaller.call(..))"/>
+	</aop:config>
+
+	<bean id="cachingInterceptor" class="org.simple4j.cachableproxyws.interceptor.CacheInterceptor">
+		<property name="cacheGetCallerFactory" ref="getCacheCallerFactory" />
+		<property name="cacheSetCallerFactory" ref="postCacheCallerFactory" />
+		<property name="ignoteParameters">
+			<list>
+				<value>_</value>
+				<value>ts</value>
+			</list>
+		</property>
+		<property name="cacheTimeToLiveMilliSec" value="86400"></property>
+		<property name="cacheServiceResponsePathForCacheValue" value="HTTP_RESPONSE_OBJECT.cachevalue"></property>
+		<property name="targetServiceStatusPath" value="HTTP_STATUS_CODE"></property>
+		<property name="targetServiceSuccessStatusRegex" value="^(200)$"></property>
+	</bean>
+
+	<bean id="jsonBodyParser" class="org.simple4j.wsclient.parser.impl.JSONParser">
+	</bean>
+
+	<bean id="cacheWSClient" class="org.simple4j.wsclient.http.HTTPWSClient">
+		<property name="connectionTimeOutMillis" value="10000"></property>
+		<property name="maxConnectionsPerHost" value="2"></property>
+		<property name="numberOfRetries" value="2"></property>
+		<property name="serviceHostName" value="localhost"></property>
+		<property name="servicePortNumber" value="2002"></property>
+		<property name="serviceProtocol" value="http"></property>
+		<property name="socketTimeOutMillis" value="30000"></property>
+	</bean>
+
+	<bean id="getCacheCallerFactory" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+		<property name="httpWSClient" ref="cacheWSClient"></property>
+		<property name="jSONConfig">
+			<value>
+				<![CDATA[
+{
+	"freemarkerEncoding":"UTF-8",
+	"freemarkerVersion":"2.3.23",
+    "request": {
+        "method": "GET",
+        "urlPattern": "/cacherws/V1/cache.json?key=${key}",
+        "body": "",
+        "staticHeaders": {
+            "Content-Type": "application/JSON"
+        },
+        "headers": {
+			"callerId": "CACHABLE_PROXY"
+        }
+    },
+    "response": {
+        "responseBodyToCustomFieldMapping": {
+        }
+    }
+}
+				]]>
+			</value>
+		</property>
+		<property name="responseBodyParsers">
+			<map>
+				<entry key="(200)|(204)|(412)|(403)|(404)" value-ref="jsonBodyParser"></entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="postCacheCallerFactory" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+		<property name="httpWSClient" ref="cacheWSClient"></property>
+		<property name="jSONConfig">
+			<value>
+				<![CDATA[
+{
+	"freemarkerEncoding":"UTF-8",
+	"freemarkerVersion":"2.3.23",
+    "request": {
+        "method": "POST",
+        "urlPattern": "/cacherws/V1/cache.json",
+        "body": "{\"key\" : \"${key}\",\"value\" : \"${value}\",\"TTL\" : \"${timeToLiveMillisec}\"}",
+        "staticHeaders": {
+            "Content-Type": "application/JSON"
+        },
+        "headers": {
+			"callerId": "CACHABLE_PROXY"
+        }
+    },
+    "response": {
+        "responseBodyToCustomFieldMapping": {
+        }
+    }
+}
+				]]>
+			</value>
+		</property>
+		<property name="responseBodyParsers">
+			<map>
+				<entry key="(200)|(204)|(412)|(403)" value-ref="jsonBodyParser"></entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

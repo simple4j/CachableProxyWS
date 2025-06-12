@@ -1,0 +1,6 @@
+package org.simple4j.cachableproxyws.beans;
+
+public enum ErrorType
+{
+	PARAMETER_ERROR,CALLER_NOTAUTHORIZED,RUNTIME_ERROR,DUPLICATE_REQUEST, USER_NOTAUTHORIZED
+}

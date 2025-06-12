@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPath": "/cacherws/V1/cache.json"
+    },
+    "response": {
+        "status": 200,
+		"body": "{\"status\":\"SUCCESS\"}",
+	    "headers": {
+	        "Content-Type": "application/json"
+	    },
+		"transformers": ["response-template"]
+    }
+}

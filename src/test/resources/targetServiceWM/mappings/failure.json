@@ -1,0 +1,16 @@
+{
+	"priority": 100,
+    "request": {
+        "method": "GET",
+        "urlPattern": "/api1/entry.json.*"
+    },
+    "response": {
+        "status": 403,
+		"body": "{\"failurevalue\":\"{{request.query.PARAM1}}\"}",
+		"headers": {
+		    "Content-Type": "application/JSON",
+			"request-id": "{{randomValue length=5 type='NUMERIC'}}"
+		},
+		"transformers": ["response-template"]
+    }
+}
