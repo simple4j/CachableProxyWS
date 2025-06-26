@@ -364,7 +364,8 @@
 		</plugins>
 	</build>
 	<description>
-	RDBMS based messaging as an alternative to other standard messaging like JMS / Kafka
+	As the name says, this component is a proxy WS caller with AOP based caching mechanism.
+	This does not contain any cache infrastructure but just has the wiring for cachiing lifecycle management.
 	</description>
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
