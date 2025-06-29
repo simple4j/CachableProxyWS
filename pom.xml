@@ -4,7 +4,7 @@
 	<groupId>org.simple4j</groupId>
 	<artifactId>CachableProxyWS</artifactId>
 	<packaging>jar</packaging>
-	<version>25.01.26.2-SNAPSHOT</version>
+	<version>25.06.30.0-SNAPSHOT</version>
 	<name>CachableProxyWS</name>
 	<url>https://github.com/simple4j/CachableProxyWS</url>
 	<licenses>
@@ -141,7 +141,7 @@
         <dependency>
 			<groupId>org.simple4j</groupId>
 			<artifactId>WSClient</artifactId>
-			<version>24.11.28.1-SNAPSHOT</version>
+			<version>25.06.30.0</version>
         </dependency>
 
 		<dependency>
@@ -167,7 +167,7 @@
 		<dependency>
 			<groupId>org.simple4j</groupId>
 			<artifactId>APIAOPValidator</artifactId>
-			<version>25.01.26.1-SNAPSHOT</version>
+			<version>25.06.30.0</version>
 		</dependency>
 
         <!-- json -->
@@ -194,7 +194,7 @@
 		<dependency>
 			<groupId>org.simple4j</groupId>
 			<artifactId>WSFeeler</artifactId>
-			<version>25.01.26.3-SNAPSHOT</version>
+			<version>25.06.30.0</version>
 		</dependency>
        
          <!-- mybatis -->
