@@ -55,9 +55,10 @@
 		<property name="socketTimeOutMillis" value="30000"></property>
 	</bean>
 
-	<bean id="getCacheCallerFactory" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+	<bean id="getCacheCallerFactory" class="org.simple4j.wsclient.caller.factory.FreeMarkerCallerFactory">
 		<property name="httpWSClient" ref="cacheWSClient"></property>
-		<property name="jSONConfig">
+		<property name="configParser" ref="jsonConfigParser"></property>
+		<property name="config">
 			<value>
 				<![CDATA[
 {
@@ -89,9 +90,10 @@
 		</property>
 	</bean>
 
-	<bean id="postCacheCallerFactory" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+	<bean id="postCacheCallerFactory" class="org.simple4j.wsclient.caller.factory.FreeMarkerCallerFactory">
 		<property name="httpWSClient" ref="cacheWSClient"></property>
-		<property name="jSONConfig">
+		<property name="configParser" ref="jsonConfigParser"></property>
+		<property name="config">
 			<value>
 				<![CDATA[
 {

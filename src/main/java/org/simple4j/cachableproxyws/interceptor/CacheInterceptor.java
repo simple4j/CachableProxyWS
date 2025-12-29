@@ -17,7 +17,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.simple4j.cachableproxyws.Main;
 import org.simple4j.cachableproxyws.utils.JSONUtil;
-import org.simple4j.wsclient.caller.CallerFactory;
+import org.simple4j.wsclient.caller.factory.CallerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

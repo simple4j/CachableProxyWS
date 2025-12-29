@@ -19,11 +19,15 @@
 		<property name="serviceProtocol" value="http"></property>
 		<property name="socketTimeOutMillis" value="30000"></property>
 	</bean>
+
+	<bean id="jsonConfigParser" class="org.simple4j.wsclient.caller.factory.JSONConfigParser">
+	</bean>
  
-	<bean id="getCacheServiceWMVerificationCallerFactory" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+	<bean id="getCacheServiceWMVerificationCallerFactory" class="org.simple4j.wsclient.caller.factory.FreeMarkerCallerFactory">
 		<!-- Same http cliecnt can be used for webservice and also for POJOASHTTP-->
 		<property name="httpWSClient" ref="cacheServiceWMHTTPWSClient"></property>
-		<property name="jSONConfig">
+		<property name="configParser" ref="jsonConfigParser"></property>
+		<property name="config">
 			<value>
 				<![CDATA[
 {
@@ -55,10 +59,11 @@
 		</property>
 	</bean>
 
-	<bean id="postCacheServiceWMVerificationCallerFactory" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+	<bean id="postCacheServiceWMVerificationCallerFactory" class="org.simple4j.wsclient.caller.factory.FreeMarkerCallerFactory">
 		<!-- Same http cliecnt can be used for webservice and also for POJOASHTTP-->
 		<property name="httpWSClient" ref="cacheServiceWMHTTPWSClient"></property>
-		<property name="jSONConfig">
+		<property name="configParser" ref="jsonConfigParser"></property>
+		<property name="config">
 			<value>
 				<![CDATA[
 {

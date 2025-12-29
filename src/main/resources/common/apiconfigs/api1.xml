@@ -32,9 +32,10 @@
 
 	<bean id="api1Caller" factory-bean="callerFactory1" factory-method="getCaller"></bean>
 
-	<bean id="callerFactory1" class="org.simple4j.wsclient.caller.FreeMarkerJSONCallerFactory">
+	<bean id="callerFactory1" class="org.simple4j.wsclient.caller.factory.FreeMarkerCallerFactory">
 		<property name="httpWSClient" ref="httpWSClient1" />
-		<property name="jSONConfigFile" value="classpath:/apiconfigs/api1/api1.json" />
+		<property name="configParser" ref="jsonConfigParser"></property>
+		<property name="configFile" value="classpath:/apiconfigs/api1/api1.json" />
 		<property name="responseBodyParsers">
 			<map>
 				<entry key="(200)|(404)|(401)|(403)|(412)">
@@ -55,6 +56,8 @@
 		<property name="socketTimeOutMillis" value="3000"></property>
 	</bean>
 
+	<bean id="jsonConfigParser" class="org.simple4j.wsclient.caller.factory.JSONConfigParser">
+	</bean>
 
 	<bean id="methodLoggingInterceptor" class="org.simple4j.cachableproxyws.interceptor.MethodLoggingInterceptor">
 	</bean>
