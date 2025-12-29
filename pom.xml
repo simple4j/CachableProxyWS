@@ -4,7 +4,7 @@
 	<groupId>org.simple4j</groupId>
 	<artifactId>CachableProxyWS</artifactId>
 	<packaging>jar</packaging>
-	<version>25.06.30.1-SNAPSHOT</version>
+	<version>25.12.29.0-SNAPSHOT</version>
 	<name>CachableProxyWS</name>
 	<url>https://github.com/simple4j/CachableProxyWS</url>
 	<licenses>
