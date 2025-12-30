@@ -1,0 +1,1 @@
+{"responsevalue":"somevalue{{request.query.PARAM1}}-{{request.query.PARAM2}}"}

@@ -102,7 +102,7 @@
     "request": {
         "method": "POST",
         "urlPattern": "/cacherws/V1/cache.json",
-        "body": "{\"key\" : \"${key}\",\"value\" : \"${value}\",\"TTL\" : \"${timeToLiveMillisec}\"}",
+        "classpathBodyFile": "apiconfigs/api1/postCacheBody.json",
         "staticHeaders": {
             "Content-Type": "application/JSON"
         },

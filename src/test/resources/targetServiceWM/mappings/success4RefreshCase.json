@@ -6,7 +6,7 @@
     },
     "response": {
         "status": 200,
-		"body": "{\"responsevalue\":\"somevalue{{request.query.PARAM1}}-{{request.query.PARAM2}}\"}",
+		"bodyFileName": "success4RefreshCaseBody.json",
 		"headers": {
 		    "Content-Type": "application/JSON",
 			"request-id": "{{randomValue length=5 type='NUMERIC'}}"

@@ -5,7 +5,7 @@
     },
     "response": {
         "status": 200,
-		"body": "{\"status\":\"SUCCESS\"}",
+		"bodyFileName": "successPostBody.json",
 	    "headers": {
 	        "Content-Type": "application/json"
 	    },

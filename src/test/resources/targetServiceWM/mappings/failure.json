@@ -6,7 +6,7 @@
     },
     "response": {
         "status": 403,
-		"body": "{\"failurevalue\":\"{{request.query.PARAM1}}\"}",
+		"bodyFileName": "failureBody.json",
 		"headers": {
 		    "Content-Type": "application/JSON",
 			"request-id": "{{randomValue length=5 type='NUMERIC'}}"

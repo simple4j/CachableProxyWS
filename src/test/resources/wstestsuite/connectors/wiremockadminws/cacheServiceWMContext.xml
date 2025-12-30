@@ -27,6 +27,7 @@
 		<!-- Same http cliecnt can be used for webservice and also for POJOASHTTP-->
 		<property name="httpWSClient" ref="cacheServiceWMHTTPWSClient"></property>
 		<property name="configParser" ref="jsonConfigParser"></property>
+		
 		<property name="config">
 			<value>
 				<![CDATA[
@@ -36,7 +37,7 @@
     "request": {
         "method": "POST",
         "urlPattern": "__admin/requests/count",
-        "body": "{\"method\": \"GET\", \"url\": \"/cacherws/V1/cache.json?${queryParam}\"}",
+        "classpathBodyFile": "/wstestsuite/connectors/wiremockadminws/getCacheServiceWMVerificationBody.json",
         "staticHeaders": {
             "Content-Type": "application/JSON"
         },
@@ -72,7 +73,7 @@
     "request": {
         "method": "POST",
         "urlPattern": "__admin/requests/count",
-        "body": "{\"method\": \"POST\", \"url\": \"/cacherws/V1/cache.json\", \"bodyPatterns\": [{\"equalTo\":\"{\\\"key\\\" : \\\"${cacheKey}\\\",\\\"value\\\" : \\\"{\\\\\\\"HTTP_RESPONSE_OBJECT\\\\\\\":{\\\\\\\"responsevalue\\\\\\\":\\\\\\\"${cacheValue}\\\\\\\"},\\\\\\\"HTTP_STATUS_CODE\\\\\\\":\\\\\\\"200\\\\\\\",\\\\\\\"HTTP_RESPONSE_HEADERS\\\\\\\":{}}\\\",\\\"TTL\\\" : \\\"86400\\\"}\"}]}",
+        "classpathBodyFile": "/wstestsuite/connectors/wiremockadminws/postCacheServiceWMVerificationBody.json",
         "staticHeaders": {
             "Content-Type": "application/JSON"
         },

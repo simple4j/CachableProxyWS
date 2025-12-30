@@ -1,0 +1,1 @@
+{"method": "GET", "url": "/api1/entry.json?${queryParam}"}

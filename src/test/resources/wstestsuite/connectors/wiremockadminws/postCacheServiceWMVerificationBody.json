@@ -1,0 +1,1 @@
+{"method": "POST", "url": "/cacherws/V1/cache.json", "bodyPatterns": [{"equalTo":"{\"key\" : \"${cacheKey}\",\"value\" : \"{\\\"HTTP_RESPONSE_OBJECT\\\":{\\\"responsevalue\\\":\\\"${cacheValue}\\\"},\\\"HTTP_STATUS_CODE\\\":\\\"200\\\",\\\"HTTP_RESPONSE_HEADERS\\\":{}}\",\"TTL\" : \"86400\"}"}]}

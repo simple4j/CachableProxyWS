@@ -141,7 +141,7 @@
         <dependency>
 			<groupId>org.simple4j</groupId>
 			<artifactId>WSClient</artifactId>
-			<version>25.12.29.3</version>
+			<version>25.12.29.4</version>
         </dependency>
 
 		<dependency>

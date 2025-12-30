@@ -6,7 +6,7 @@
     },
     "response": {
         "status": 404,
-		"body": "{\"status\":\"NOT_FOUND\"}",
+		"bodyFileName": "failureGetBody.json",
 	    "headers": {
 	        "Content-Type": "application/json"
 	    },

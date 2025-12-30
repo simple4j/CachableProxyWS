@@ -1,0 +1,1 @@
+{"method": "GET", "url": "/cacherws/V1/cache.json?${queryParam}"}
