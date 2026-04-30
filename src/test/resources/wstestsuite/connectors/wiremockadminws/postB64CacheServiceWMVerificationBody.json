@@ -1,0 +1,1 @@
+{"method": "POST", "url": "/cacherws/${cacheServiceVer}/cache.json", "bodyPatterns": [{"equalTo":"{\"key\" : \"${cacheKey}\",\"value\" : \"${cacheValue}\",\"TTL\" : \"86400\"}"}]}

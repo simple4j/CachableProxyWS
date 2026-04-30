@@ -59,6 +59,8 @@ public class CacheInterceptor implements MethodInterceptor
 	
 	private String targetServiceSuccessStatusRegex = null;
 	
+	private boolean useBase64Encoding2Cache = false;
+	
 
 	public CallerFactory getCacheGetCallerFactory()
 	{
@@ -180,6 +182,16 @@ public class CacheInterceptor implements MethodInterceptor
 		this.targetServiceSuccessStatusRegex = targetServiceSuccessStatusRegex;
 	}
 
+	public boolean useBase64Encoding2Cache()
+	{
+		return useBase64Encoding2Cache;
+	}
+
+	public void setUseBase64Encoding2Cache(boolean useBase64Encoding2Cache)
+	{
+		this.useBase64Encoding2Cache = useBase64Encoding2Cache;
+	}
+
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable
 	{
 		logger.info("Entering CacheInterceptor.invoke");
@@ -243,7 +255,16 @@ public class CacheInterceptor implements MethodInterceptor
 			{
 //				cacheValue = (String) PropertyUtils.getNestedProperty(targetServiceCallResponse, this.getTargetServiceResponsePathForCacheValue());
 				cacheValue = OBJECT_MAPPER.writeValueAsString(targetServiceCallResponse);
-				cacheValue = JSONUtil.escape(cacheValue);
+				if(useBase64Encoding2Cache())
+				{
+					cacheValue = Base64.getEncoder()
+		                       .withoutPadding()
+		                       .encodeToString(cacheValue.getBytes(StandardCharsets.UTF_8));
+				}
+				else
+				{
+					cacheValue = JSONUtil.escape(cacheValue);
+				}
 				Map<String,String> setCacheParam = new HashMap<String, String>();
 				setCacheParam.put(this.getCacheServiceKeyParameterName(), cacheKey);
 				setCacheParam.put(this.getCacheServiceValueParameterName(), cacheValue);
@@ -261,7 +282,14 @@ public class CacheInterceptor implements MethodInterceptor
 		else
 		{
 			logger.debug("cacheValue {}", cacheValue);
-			cacheValue = JSONUtil.unescape(cacheValue);
+			if(useBase64Encoding2Cache())
+			{
+				cacheValue = new String(Base64.getDecoder().decode(cacheValue), StandardCharsets.UTF_8);
+			}
+			else
+			{
+				cacheValue = JSONUtil.unescape(cacheValue);
+			}
 			methodReturn = OBJECT_MAPPER.readValue(cacheValue, Map.class);
 		}
 		

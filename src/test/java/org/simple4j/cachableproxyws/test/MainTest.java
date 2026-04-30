@@ -31,11 +31,11 @@ public class MainTest
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
-		targetServiceWM = new WireMockServer(WireMockConfiguration.options().bindAddress("localhost").port(2001).withRootDirectory(MainTest.class.getResource("/targetServiceWM").getPath()).notifier(new Slf4jNotifier(true)));
+		targetServiceWM = new WireMockServer(WireMockConfiguration.options().gzipDisabled(true).bindAddress("localhost").port(2001).withRootDirectory(MainTest.class.getResource("/targetServiceWM").getPath()).notifier(new Slf4jNotifier(true)));
 		targetServiceWM.start();
 		String path = MainTest.class.getResource("/cacheServiceWM").getPath();
 		LOGGER.info("path for cache WM {}", path);
-		cacheServiceWM1 = new WireMockServer(WireMockConfiguration.options().bindAddress("localhost").port(2002).withRootDirectory(path).notifier(new Slf4jNotifier(true)));
+		cacheServiceWM1 = new WireMockServer(WireMockConfiguration.options().gzipDisabled(true).bindAddress("localhost").port(2002).withRootDirectory(path).notifier(new Slf4jNotifier(true)));
 		cacheServiceWM1.start();
 		
 		Main.main(null);
