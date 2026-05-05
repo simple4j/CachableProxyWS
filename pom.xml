@@ -42,7 +42,7 @@
 		<dependency>
 		    <groupId>io.javalin</groupId>
 		    <artifactId>javalin</artifactId>
-		    <version>6.3.0</version>
+		    <version>7.2.0</version>
 		</dependency>
 
 	    <!-- spring -->
@@ -100,7 +100,7 @@
         <dependency>
 			<groupId>org.simple4j</groupId>
 			<artifactId>WSClient</artifactId>
-			<version>25.12.29.4</version>
+			<version>26.04.19.1</version>
         </dependency>
 
 		<dependency>
@@ -133,34 +133,34 @@
      	<dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.17.2</version>
+            <version>2.21.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.17.2</version>
+            <version>2.21</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.17.2</version>
+            <version>2.21.2</version>
         </dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.13.4</version>
+			<version>2.21.2</version>
 		</dependency>
        
          <!-- mybatis -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.5.7</version>
+            <version>3.5.19</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>2.0.1</version>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
 			<groupId>commons-codec</groupId>
@@ -183,14 +183,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.simple4j</groupId>
-			<artifactId>JavalinPOJOAsHTTP</artifactId>
-			<version>24.12.04.0</version>
+			<artifactId>WSFeeler</artifactId>
+			<version>25.12.29.3</version>
 		    <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.simple4j</groupId>
-			<artifactId>WSFeeler</artifactId>
-			<version>25.12.29.1</version>
+			<artifactId>JavalinPOJOAsHTTP</artifactId>
+			<version>26.05.02.0</version>
 		    <scope>test</scope>
 		</dependency>
 

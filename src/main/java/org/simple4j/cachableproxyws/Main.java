@@ -81,9 +81,8 @@ public class Main
         main = context.getBean("main", Main.class);
         main.init();
 
-		Javalin javalin = Javalin.create();
-
-        javalin.before(ctx ->
+		Javalin javalin = Javalin.create(config -> {
+			config.routes.before(ctx ->
         {
             long startTimeMillisec = System.currentTimeMillis();
 			String requestId = startTimeMillisec + "@" + main.hostName;
@@ -104,7 +103,7 @@ public class Main
                     StringUtils.isNotBlank(query) ? ("query string is " + query) : "");
         });
 
-        javalin.after(ctx ->
+        config.routes.after(ctx ->
         {
             
             Object returnObject = ctx.attribute(JAPI_RETURN_OBJECT);
@@ -123,7 +122,7 @@ public class Main
             finishCall(ctx);
         });
 
-        javalin.exception(Exception.class, (e, ctx) ->
+        config.routes.exception(Exception.class, (e, ctx) ->
         {
             LOGGER.error("Status {}", ctx.statusCode());
             LOGGER.error("Unhandled exception", e);
@@ -147,7 +146,7 @@ public class Main
             }
         });
 
-        javalin.post(main.getUrlBase()+"/serverhealth.json", ctx -> 
+        config.routes.post(main.getUrlBase()+"/serverhealth.json", ctx -> 
         {
             String bodyJson = ctx.body();
             HealthCheck healthCheckReq = null;
@@ -164,7 +163,7 @@ public class Main
             ctx.result("{}");
         });
 
-        javalin.get(main.getUrlBase()+"/serverhealth.json", ctx -> 
+        config.routes.get(main.getUrlBase()+"/serverhealth.json", ctx -> 
         {
             HealthCheck healthCheckRes = new HealthCheck();
             healthCheckRes.status = main.getHealthCheckStatus();
@@ -175,19 +174,26 @@ public class Main
             ctx.result(OBJECT_MAPPER.writeValueAsString(healthCheckRes));
         });
 
-        javalin.get(main.getUrlBase()+"/proxy.json", ctx -> 
+        config.routes.get(main.getUrlBase()+"/proxy.json", ctx -> 
         {
         	Main.refreshFlag.set(false);
             callService(ctx);
         });
 
-        javalin.get(main.getUrlBase()+"/refresh/proxy.json", ctx -> 
+        config.routes.get(main.getUrlBase()+"/refresh/proxy.json", ctx -> 
         {
         	Main.refreshFlag.set(true);
             callService(ctx);
         });
 
-        javalin.start(main.getListenerPortNumber());
+		config.events.serverStopping(() -> {
+        	LOGGER.info("Stopping event");
+        });
+
+		config.events.serverStopped(() -> {
+        	LOGGER.info("Stopped event");
+        });
+	}).start(main.getListenerPortNumber());
         
     	LOGGER.info("Start up completed");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -195,14 +201,6 @@ public class Main
         	javalin.stop();
         }));
 
-        javalin.events(event -> {
-            event.serverStopping(() -> {
-            	LOGGER.info("Stopping event");
-            });
-            event.serverStopped(() -> {
-            	LOGGER.info("Stopped event");
-            });
-        });
     	LOGGER.info("End of main method");
     }
 
